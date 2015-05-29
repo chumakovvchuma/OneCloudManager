@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -49,7 +49,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mKey = (EditText) findViewById(R.id.key);
+        mKey = (AutoCompleteTextView) findViewById(R.id.key);
         mKey.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -166,10 +166,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mKey;
+        private final String key;
 
         UserLoginTask(String key) {
-            mKey = key;
+            this.key = key;
         }
 
         @Override
@@ -177,19 +177,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
+                // здесь запрос к API
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+
 
             // TODO: register the new account here.
             return true;
@@ -203,7 +197,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             if (success) {
                 finish();
             } else {
-                mKey.setError(getString(R.string.error_incorrect_password));
+                mKey.setError(getString(R.string.error_incorrect_key));
                 mKey.requestFocus();
             }
         }
