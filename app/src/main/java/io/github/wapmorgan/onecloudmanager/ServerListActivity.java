@@ -1,8 +1,14 @@
 package io.github.wapmorgan.onecloudmanager;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 
 /**
@@ -35,8 +41,6 @@ public class ServerListActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_list);
 
-        new LoginTask(this).execute();
-
         if (findViewById(R.id.server_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
@@ -50,7 +54,6 @@ public class ServerListActivity extends FragmentActivity
                     .findFragmentById(R.id.server_list))
                     .setActivateOnItemClick(true);
         }
-
         // TODO: If exposing deep links into your app, handle intents here.
     }
 

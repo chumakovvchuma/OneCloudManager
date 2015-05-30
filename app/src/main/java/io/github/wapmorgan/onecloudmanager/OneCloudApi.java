@@ -2,6 +2,7 @@ package io.github.wapmorgan.onecloudmanager;
 
 import android.text.StaticLayout;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +26,7 @@ import io.github.wapmorgan.onecloudmanager.api.Network;
 import io.github.wapmorgan.onecloudmanager.api.Server;
 
 /**
- * Created by Сергей on 29.05.2015.
+ * Created by wm on 29.05.2015.
  */
 public class OneCloudApi {
     private static String key;
@@ -110,15 +111,19 @@ public class OneCloudApi {
     }
 
     public static boolean checkKey() {
-        if (TextUtils.isEmpty(OneCloudApi.key))
+        if (TextUtils.isEmpty(OneCloudApi.key)) {
+            Log.d("API", "Checking failed.");
             return false;
+        }
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Authorization", "Bearer " + OneCloudApi.key);
         String result = "{}";
         try {
             result = OneCloudApi.httpGet(OneCloudApi.BASE + "/server", headers);
+            Log.d("API", "Checking passed.");
             return true;
         } catch (IOException e) {
+            Log.d("API", "Checking failed.");
             return false;
         }
     }
@@ -130,7 +135,8 @@ public class OneCloudApi {
         try {
             result = OneCloudApi.httpGet(OneCloudApi.BASE + "/server", headers);
         } catch (IOException e) {
-
+            Log.e("API", "Could not download /servers");
+            throw new RuntimeException(e);
         }
         List<Network> networkList = new ArrayList<Network>();
         List<Server> serverList = new ArrayList<Server>();
@@ -163,10 +169,13 @@ public class OneCloudApi {
                     .setIsHighPerformance(server.getBoolean("IsHighPerformance"))
                     .setHddType(server.getString("HDDType"))
                     .setLinkedNetworks(networkList));
+                Log.d("API", "Received server - " + server.getString("Name"));
             }
         } catch (JSONException e) {
-
+            Log.e("API", "Could not understand JSON for /servers");
+            throw new RuntimeException(e);
         }
+        ApiCache.serversList = serverList;
         return serverList;
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_cpu">CPU</string>
+    <string name="server_ram">RAM</string>
+    <string name="server_hdd">HDD</string>
+    <string name="server_ip">IP</string>
+    <string name="server_performance">Performance</string>
+    <string name="server_admin_credentials">Admin Credentials</string>
+    <string name="server_admin_username">Username</string>
+    <string name="server_admin_password">Password</string>
+    <string name="server_state">State</string>
+
+    <string name="power_managment">Power Management</string>
+
+    <string name="edit_server">Edit Server</string>
+</resources>

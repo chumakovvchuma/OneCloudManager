@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by Сергей on 30.05.2015.
+ * Created by wm on 30.05.2015.
  */
 public class Server {
     public Server setId(int id) {

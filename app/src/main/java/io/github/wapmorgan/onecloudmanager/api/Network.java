@@ -1,7 +1,7 @@
 package io.github.wapmorgan.onecloudmanager.api;
 
 /**
- * Created by Сергей on 30.05.2015.
+ * Created by wm on 30.05.2015.
  */
 public class Network {
     public Network setId(int id) {
