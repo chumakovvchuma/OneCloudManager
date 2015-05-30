@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">OneCloud Manager</string>
+    <string name="title_server_list">Servers</string>
+    <string name="title_server_detail">Server Detail</string>
 </resources>

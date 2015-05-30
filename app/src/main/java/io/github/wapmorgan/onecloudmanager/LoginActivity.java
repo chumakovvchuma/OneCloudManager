@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
         mKey.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                if (id == EditorInfo.IME_NULL) {
                     attemptLogin();
                     return true;
                 }
@@ -91,12 +91,6 @@ public class LoginActivity extends Activity {
 
         boolean cancel = false;
         View focusView = null;
-
-        if (!TextUtils.isEmpty(key)) {
-            mKey.setError(getString(R.string.error_invalid_key));
-            focusView = mKey;
-            cancel = true;
-        }
 
         // Check for a valid key.
         if (!isKeyValid(key)) {
