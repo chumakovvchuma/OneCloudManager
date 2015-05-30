@@ -1,6 +1,7 @@
 package io.github.wapmorgan.onecloudmanager;
 
 import android.text.StaticLayout;
+import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,6 +107,20 @@ public class OneCloudApi {
 
     public static void setKey(String key) {
         OneCloudApi.key = key;
+    }
+
+    public static boolean checkKey() {
+        if (TextUtils.isEmpty(OneCloudApi.key))
+            return false;
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Bearer " + OneCloudApi.key);
+        String result = "{}";
+        try {
+            result = OneCloudApi.httpGet(OneCloudApi.BASE + "/server", headers);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public static List<Server> getServerList() {
