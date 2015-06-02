@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_hdd_type">HDD Type</string>
+    <string name="hdd_type_sas">SAS</string>
+    <string name="hdd_type_ssd">SSD</string>
+    <string name="server_performance_normal">Normal</string>
+    <string name="server_performance_high">High</string>
+</resources>

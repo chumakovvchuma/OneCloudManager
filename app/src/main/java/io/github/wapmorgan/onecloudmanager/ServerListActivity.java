@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -27,7 +30,7 @@ import android.widget.ProgressBar;
  * {@link ServerListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ServerListActivity extends FragmentActivity
+public class ServerListActivity extends ActionBarActivity
         implements ServerListFragment.Callbacks {
 
     /**
@@ -69,6 +72,7 @@ public class ServerListActivity extends FragmentActivity
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(ServerDetailFragment.ARG_ITEM_ID, id);
+            Log.d("UI", "Selected ID: " + id);
             ServerDetailFragment fragment = new ServerDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -79,8 +83,16 @@ public class ServerListActivity extends FragmentActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ServerDetailActivity.class);
+            Log.d("UI", "Selected ID: " + id);
             detailIntent.putExtra(ServerDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
     }
 }

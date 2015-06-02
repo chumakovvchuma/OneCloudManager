@@ -1,7 +1,13 @@
 package io.github.wapmorgan.onecloudmanager;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +54,8 @@ public class ServerDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            server = ApiCache.serversList.get(getArguments().getInt(ARG_ITEM_ID));
+            Log.d("UI", "Given ID: " + getArguments().getString(ARG_ITEM_ID));
+            server = ApiCache.serversList.get(Integer.valueOf(getArguments().getString(ARG_ITEM_ID)) - 1);
         }
     }
 
@@ -66,6 +73,16 @@ public class ServerDetailFragment extends Fragment {
 
             ToggleButton toggle = (ToggleButton) rootView.findViewById(R.id.server_power_toggle);
             toggle.setChecked(server.isPowerOn());
+            toggle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (server.isPowerOn()) {
+                        new PowerChanger().execute("PowerOff");
+                    } else {
+                        new PowerChanger().execute("PowerOn");
+                    }
+                }
+            });
 
             ((TextView) rootView.findViewById(R.id.server_cpu)).setText(String.valueOf(server.getCpu()));
             int ram = server.getRam();
@@ -79,9 +96,30 @@ public class ServerDetailFragment extends Fragment {
 
             ((TextView) rootView.findViewById(R.id.server_admin_username)).setText(server.getAdminUserName());
             ((TextView) rootView.findViewById(R.id.server_admin_password)).setText(server.getAdminPassword());
-
         }
 
         return rootView;
+    }
+
+    public class PowerChanger extends AsyncTask<String, Void, Boolean> {
+        protected Boolean doInBackground(String... params) {
+            return OneCloudApi.changeServerPower(server.getId(), params[0]);
+        }
+
+        protected void onPostExecute(Boolean result) {
+            NotificationCompat.Builder mBuilder;
+            if (result) {
+                mBuilder = new NotificationCompat.Builder(getActivity())
+                        .setSmallIcon(android.R.drawable.sym_def_app_icon)
+                        .setContentTitle(getString(R.string.power_changed_title))
+                        .setContentText(server.getName() + ": " + getString(R.string.power_changed_content));
+            } else {
+                mBuilder = new NotificationCompat.Builder(getActivity())
+                        .setSmallIcon(android.R.drawable.sym_def_app_icon)
+                        .setContentTitle(getString(R.string.power_hasnt_changed_title))
+                        .setContentText(server.getName() + ": " + getString(R.string.power_hasnt_changed_content));
+            }
+            ((NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).notify(1, mBuilder.build());
+        }
     }
 }

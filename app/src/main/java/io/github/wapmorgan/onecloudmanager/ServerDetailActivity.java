@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +44,7 @@ public class ServerDetailActivity extends ActionBarActivity {
             Bundle arguments = new Bundle();
             arguments.putString(ServerDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(ServerDetailFragment.ARG_ITEM_ID));
+            Log.d("UI", "Passed ID: " + getIntent().getStringExtra(ServerDetailFragment.ARG_ITEM_ID));
             ServerDetailFragment fragment = new ServerDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -54,16 +56,16 @@ public class ServerDetailActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            NavUtils.navigateUpTo(this, new Intent(this, ServerListActivity.class));
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpTo(this, new Intent(this, ServerListActivity.class));
+                return true;
+            case R.id.action_edit:
+                Intent detailIntent = new Intent(this, ServerChangeActivity.class);
+                Log.d("UI", "Selected ID: " + getIntent().getStringExtra(ServerDetailFragment.ARG_ITEM_ID));
+                detailIntent.putExtra(ServerDetailFragment.ARG_ITEM_ID, getIntent().getStringExtra(ServerDetailFragment.ARG_ITEM_ID));
+                startActivity(detailIntent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

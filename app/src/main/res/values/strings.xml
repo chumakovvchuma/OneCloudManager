@@ -2,4 +2,8 @@
     <string name="app_name">OneCloud Manager</string>
     <string name="title_server_list">Servers</string>
     <string name="title_server_detail">Server Detail</string>
+    <string name="title_activity_server_change">ServerChangeActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -10,7 +10,13 @@
     <string name="server_admin_password">Password</string>
     <string name="server_state">State</string>
 
-    <string name="power_managment">Power Management</string>
+    <string name="power_management">Power Management</string>
 
     <string name="edit_server">Edit Server</string>
+
+    <string name="power_changed_title">Server Power has changed</string>
+    <string name="power_changed_content">Server Power has successfully changed</string>
+
+    <string name="power_hasnt_changed_title">Server Power has NOT changed</string>
+    <string name="power_hasnt_changed_content">Server Power has NOT changed</string>
 </resources>

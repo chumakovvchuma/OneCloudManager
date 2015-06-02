@@ -64,7 +64,7 @@ public class OneCloudApi {
     }
 
     public static String httpPost(String urlStr, String[] paramName,
-                                  String[] paramVal) throws Exception {
+                                  String[] paramVal, Map<String, String> headers) throws Exception {
         URL url = new URL(urlStr);
         HttpURLConnection conn =
                 (HttpURLConnection) url.openConnection();
@@ -75,6 +75,10 @@ public class OneCloudApi {
         conn.setAllowUserInteraction(false);
         conn.setRequestProperty("Content-Type",
                 "application/x-www-form-urlencoded");
+
+        for (String key : headers.keySet()) {
+            conn.setRequestProperty(key, headers.get(key));
+        }
 
         // Create the form content
         OutputStream out = conn.getOutputStream();
@@ -177,5 +181,20 @@ public class OneCloudApi {
         }
         ApiCache.serversList = serverList;
         return serverList;
+    }
+
+    public static boolean changeServerPower(int id, String action) {
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "Bearer " + OneCloudApi.key);
+        String result = "{}";
+        try {
+            result = OneCloudApi.httpPost(OneCloudApi.BASE + "/server/" + id + "/action", new String[] {"Type"}, new String[] {action}, headers);
+            return true;
+        } catch (IOException e) {
+            Log.e("API", "Could not upload /servers/" + id + "/action");
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

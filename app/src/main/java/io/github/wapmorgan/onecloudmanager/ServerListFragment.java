@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import java.lang.reflect.Array;
@@ -186,9 +189,17 @@ public class ServerListFragment extends ListFragment {
 
             setListAdapter(new ArrayAdapter<String>(
                     getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
+                    android.R.layout.simple_list_item_2,
                     android.R.id.text1,
-                    serverNames));
+                    serverNames) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+                    text2.setText((servers.get(position).isPowerOn() ? "On" : "Off") + " - " + servers.get(position).getState());
+                    return view;
+                }
+            });
         }
     }
 }
